@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+          "removeComments": true,
+      "sourceMap": true,
+          "outDir": "../dist",
+          "moduleResolution": "node",
+          "strict": true,
+          "esModuleInterop": true,
+          "allowSyntheticDefaultImports": true
+      },
+      "include": [
+          "*.ts",
+          "./scripts/*.ts"
+      ],
+      "exclude": [
+          "./public"
+      ]
+  }
