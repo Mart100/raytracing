@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { Renderer } from './renderer'
 import { World } from './world'
 

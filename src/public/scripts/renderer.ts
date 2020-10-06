@@ -1,4 +1,3 @@
-import $ from "jquery"
 import { Camera } from "./camera"
 import { Color } from "./color"
 import { world } from "./main"
@@ -42,7 +41,7 @@ export class Renderer {
 		this.camera = new Camera(new Vec3(0, 0, 1000), 90, new Vec3(0, 0, 0), 40)
 
 	}
-	changeView(to) : void {
+	changeView(to:string) : void {
 		this.view = to
 	}
 	setCanvasPixel(pos:Vec2, color:Color) : void {

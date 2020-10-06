@@ -7,7 +7,7 @@ export class Ray {
 	vel:Vec3
 	bounce:number
 	
-	constructor(pos, vel) {
+	constructor(pos:Vec3, vel:Vec3) {
 		this.pos = pos
 		this.vel = vel.setMagnitude(1)
 		this.bounce = 0

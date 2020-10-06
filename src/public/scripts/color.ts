@@ -4,10 +4,10 @@ export class Color {
 	b: number = 255
 	a: number = 255
 	constructor(r?:number, b?:number, g?:number, a?:number) {
-		this.r = r
-		this.g = g
-		this.b = b
-		this.a = a
+		this.r = r || 255
+		this.g = g || 255
+		this.b = b || 255
+		this.a = a || 255
 	}
 
 	random() : Color {

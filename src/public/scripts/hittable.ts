@@ -18,6 +18,7 @@ export class Hittable {
 		this.diffusion = 0.2
 		this.shape = 'ball'
 		this.size = 5
+		this.lightIntensity = 0
 	}
 	load() {
 		world.addHittable(this)
