@@ -5,16 +5,8 @@ var browserify = require("browserify");
 var source = require("vinyl-source-stream");
 var ts = require("gulp-typescript");
 var tsify = require("tsify");
-var uglify = require("gulp-uglify");
 var sass = require('gulp-sass');
-var sourcemaps = require("gulp-sourcemaps");
-var buffer = require("vinyl-buffer");
 var glob = require('glob');
-var es = require('event-stream');
-var gutil = require('gulp-util');
-var tap = require('gulp-tap');
-var path = require('path');
-var merge = require('merge-stream');
 var paths = {
   pages: ["src/public/*.html"],
 };

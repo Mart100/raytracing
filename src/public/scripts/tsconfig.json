@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+		"removeComments": true,
+		"sourceMap": true,
+		"lib": ["es5", "es2015", "dom", "scripthost"],
+		"outDir": "./dist/public/scripts",
+		"strict": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true
+	},
+	"include": [
+		"./*.ts"
+	]
+}
