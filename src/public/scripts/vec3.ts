@@ -133,12 +133,18 @@ export class Vec3 {
 		this.z = Math.round(this.z)
 		return this
 	}
-	randomize(i:number) : Vec3 {
+	randomizeInBall(i:number) : Vec3 {
 		this.x = (Math.random()*i)-i/2
 		this.y = (Math.random()*i)-i/2
 		this.z = (Math.random()*i)-i/2
 		let magnitude = this.getMagnitude()
 		if(magnitude > i) this.setMagnitude(i)
+		return this
+	}
+	randomizeInCube(i:number) : Vec3 {
+		this.x = (Math.random()*i)-i/2
+		this.y = (Math.random()*i)-i/2
+		this.z = (Math.random()*i)-i/2
 		return this
 	}
 }
