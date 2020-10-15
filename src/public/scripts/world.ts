@@ -1,9 +1,9 @@
 import { Ball } from "./ball"
 import { Color } from "./color"
-import { Hittable } from "./hittable"
+import { Hittable, HittableOptions } from "./hittable"
 import { renderer, world } from "./main"
 import { Ray } from "./ray"
-import { sleep } from "./utils"
+import { randomRange, sleep } from "./utils"
 import { Vec3 } from "./vec3"
 
 export class World {
@@ -24,7 +24,17 @@ export class World {
 	}
 	spawnRandomHittables(amount:number) {
 		for(let i=0;i<amount;i++) {
-			let newHittable = new Ball()
+			let randomHittableConfig:HittableOptions = {
+				size: randomRange(2, 20),
+				color: new Color().random(),
+				reflection: Math.random(),
+				diffusion: Math.random(),
+				lightIntensity: 0,
+				pos: new Vec3().randomizeInCube(1000)
+			}
+
+			let newHittable = new Ball(randomHittableConfig)
+
 			this.addHittable(newHittable)
 		}
 	}
