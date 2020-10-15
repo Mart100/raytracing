@@ -22,4 +22,10 @@ export class World {
 		this.hittables.push(hittable)
 		if(hittable.lightIntensity > 0) this.lights.push(hittable)
 	}
+	spawnRandomHittables(amount:number) {
+		for(let i=0;i<amount;i++) {
+			let newHittable = new Ball()
+			this.addHittable(newHittable)
+		}
+	}
 }

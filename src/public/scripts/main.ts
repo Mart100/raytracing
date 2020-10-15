@@ -9,4 +9,7 @@ export let world:World
 $(() => {
 	world = new World()
 	globalAny.world = world
+
+	world.spawnRandomHittables(20)
+
 })
