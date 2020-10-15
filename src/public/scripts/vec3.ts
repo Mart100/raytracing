@@ -1,3 +1,9 @@
+enum Axis {
+	x,
+	y,
+	z,
+}
+
 export class Vec3 {
 	
 	x:number = 0
@@ -5,9 +11,9 @@ export class Vec3 {
 	z:number = 0
 
 	constructor(x?:number, y?:number, z?:number) {
-		this.x = x
-		this.y = y
-		this.z = z
+		this.x = x || 0
+		this.y = y || 0
+		this.z = z || 0
 		
 	}
 	multiply(vec1:Vec3) : Vec3 {
@@ -35,30 +41,30 @@ export class Vec3 {
 		
 		return angles
 	}
-	rotate(axis, angle) : Vec3 {
+	rotateFull(angles:Vec3) : Vec3 {
+		this.rotate(Axis.z, angles.z)
+		this.rotate(Axis.x, angles.x)
+		this.rotate(Axis.y, angles.y)
 
-		let x1, y1, z1
+		return this
+	}
+	rotate(axis:Axis, angle:number) : Vec3 {
 
-		if(axis == 'all') {
-			
-			this.rotate('z', angle.z)
-			this.rotate('x', angle.x)
-			this.rotate('y', angle.y)
+		let x1:number = 0
+		let y1:number = 0
+		let z1:number = 0
 
-			return this
-		}
-
-		if(axis == 'x') {
+		if(axis == Axis.x) {
 			x1 = this.x
 			y1 = this.y * Math.cos(angle) - this.z * Math.sin(angle)
 			z1 = this.y * Math.sin(angle) + this.z * Math.cos(angle)
 		}
-		if(axis == 'y') {
+		if(axis == Axis.y) {
 			x1 = this.x * Math.cos(angle) + this.z * Math.sin(angle)
 			y1 = this.y
 			z1 =-this.x * Math.sin(angle) + this.z * Math.cos(angle)
 		}
-		if(axis == 'z') {
+		if(axis == Axis.z) {
 			x1 = this.x * Math.cos(angle) - this.y * Math.sin(angle)
 			y1 = this.x * Math.sin(angle) + this.y * Math.cos(angle)
 			z1 = this.z
