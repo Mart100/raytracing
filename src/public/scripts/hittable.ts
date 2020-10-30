@@ -3,11 +3,14 @@ import { Vec3 } from "./vec3"
 import { world } from "./main"
 
 
+
+
 export enum Shape {
-  ball,
-  cube,
+	ball,
+	cube,
 	surface,
-	none
+	none,
+	poly
 }
 
 export interface HittableOptions {

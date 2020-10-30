@@ -10,6 +10,9 @@ $(() => {
 	world = new World()
 	globalAny.world = world
 
+	renderer = new Renderer()
+	globalAny.renderer = renderer
+
 	world.spawnRandomHittables(20)
 
 })

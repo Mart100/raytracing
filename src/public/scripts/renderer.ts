@@ -13,9 +13,14 @@ interface getRaytracingViewOptions {
 	update?:boolean
 }
 
+enum View {
+	raytracing,
+	simple
+}
+
 export class Renderer {
 
-    view:string
+    view:View
     frameCount:number
     canvas:any
     ctx:any
@@ -25,7 +30,7 @@ export class Renderer {
 		
 	constructor() {
 
-		this.view = 'sideview'
+		this.view = View.raytracing
 		this.frameCount = 0
 
 		this.canvas = $('#canvas')[0]
@@ -41,7 +46,7 @@ export class Renderer {
 		this.camera = new Camera(new Vec3(0, 0, 1000), 90, new Vec3(0, 0, 0), 40)
 
 	}
-	changeView(to:string) : void {
+	changeView(to:View) : void {
 		this.view = to
 	}
 	setCanvasPixel(pos:Vec2, color:Color) : void {
