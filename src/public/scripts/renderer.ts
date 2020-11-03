@@ -20,13 +20,13 @@ enum View {
 
 export class Renderer {
 
-    view:View
-    frameCount:number
-    canvas:any
-    ctx:any
-    imgData:any
-		size:Vec2
-		camera:Camera
+	view:View
+	frameCount:number
+	canvas:any
+	ctx:any
+	imgData:any
+	size:Vec2
+	camera:Camera
 		
 	constructor() {
 
@@ -43,7 +43,7 @@ export class Renderer {
 		this.size = new Vec2(this.canvas.width, this.canvas.height)
 
 		this.frame()
-		this.camera = new Camera(new Vec3(0, 0, 1000), 90, new Vec3(0, 0, 0), 40)
+		this.camera = new Camera(new Vec3(0, 0, 1000), dgr_to_rad(90), new Vec3(0, 0, 0), 40)
 
 	}
 	changeView(to:View) : void {
@@ -56,6 +56,31 @@ export class Renderer {
 		this.imgData.data[idx+1] = color.g
 		this.imgData.data[idx+2] = color.b
 		this.imgData.data[idx+3] = color.a
+	}
+	startRaytracingProcess() : void {
+		let fov = this.camera.fov
+		let width = this.canvas.width
+		let height = this.canvas.height
+
+		for(let x=0;x<width;x+=1) {
+			let angleA = (((x/width)*fov)-(fov/2))/(height/width)
+			for(let y=0;y<height;y+=1) {
+				//let currentPix = this.getCanvasPixel(new Vec2(x, y))
+				//if(currentPix.a == 255) continue 
+				let angleB = ((y/height)*fov)-(fov/2)
+				let vec = new Vec3(Math.sin(angleA), Math.sin(angleB), -1)
+				let rayVec = vec.clone().rotateFull(this.camera.rot)
+				if(Math.random() > 0.99999) console.log(x, y, angleA, angleB, rayVec)
+				let color = this.sendPixelRay(new Vec2(x, y), rayVec)
+				this.setCanvasPixel(new Vec2(x, y), color)
+			}
+		}
+	}
+	sendPixelRay(pos:Vec2, rayVec:Vec3) : Color {
+		let rayPos = this.camera.pos.clone()
+		let ray = new Ray(rayPos, rayVec)
+		let color = ray.getColor()
+		return color
 	}
 	getCanvasPixel(pos:Vec2) : Color {
 

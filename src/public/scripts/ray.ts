@@ -1,3 +1,4 @@
+import { Color } from "./color"
 import { world } from "./main"
 import { Vec3 } from "./vec3"
 
@@ -13,5 +14,8 @@ export class Ray {
 		this.bounce = 0
 
 		world.raysCreated += 1
+	}
+	getColor() : Color {
+		return new Color().random()
 	}
 }
