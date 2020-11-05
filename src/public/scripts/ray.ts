@@ -24,11 +24,13 @@ export class Ray {
 		world.raysCreated += 1
 	}
 
-	getRayIntersects() : Array<rayBallIntersect> {
+	getRayIntersects(hittablesOverwrite?:Array<Hittable>) : Array<rayBallIntersect> {
 		let intersects = []
 		let ray = this
+		let hittables = world.hittables
+		if(hittablesOverwrite) hittables = hittablesOverwrite
 
-		for(let hittable of world.hittables) {
+		for(let hittable of hittables) {
 			let eye_to_centerBall = hittable.pos.clone().subtract(ray.pos)
 			let rayLength = eye_to_centerBall.dotProduct(ray.vel)
 			let rayClosestToBall = ray.pos.clone().plus(ray.vel.clone().setMagnitude(rayLength))
