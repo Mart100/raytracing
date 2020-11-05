@@ -2,6 +2,7 @@ import { Color } from "./color"
 import { Hittable } from "./hittable"
 import { world } from "./main"
 import { Vec3 } from "./vec3"
+import { World } from "./world"
 
 export interface rayBallIntersect {
 	hittable:Hittable
@@ -15,20 +16,21 @@ export class Ray {
 	pos:Vec3
 	vel:Vec3
 	bounce:number
+	world:World
 	
-	constructor(pos:Vec3, vel:Vec3) {
+	constructor(pos:Vec3, vel:Vec3, worldOverwrite?:World) {
 		this.pos = pos
 		this.vel = vel.setMagnitude(1)
 		this.bounce = 0
+		this.world = worldOverwrite || world
 
-		world.raysCreated += 1
+		this.world.raysCreated += 1
 	}
 
-	getRayIntersects(hittablesOverwrite?:Array<Hittable>) : Array<rayBallIntersect> {
+	getRayIntersects() : Array<rayBallIntersect> {
 		let intersects = []
 		let ray = this
-		let hittables = world.hittables
-		if(hittablesOverwrite) hittables = hittablesOverwrite
+		let hittables = this.world.hittables
 
 		for(let hittable of hittables) {
 			let eye_to_centerBall = hittable.pos.clone().subtract(ray.pos)
