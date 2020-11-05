@@ -21,7 +21,7 @@ export class Ray {
 	constructor(pos:Vec3, vel:Vec3, worldOverwrite?:World) {
 		this.pos = pos
 		this.vel = vel.setMagnitude(1)
-		this.bounce = 0
+		this.bounce = 3
 		this.world = worldOverwrite || world
 
 		this.world.raysCreated += 1
@@ -58,8 +58,32 @@ export class Ray {
 		
 		let intersects = this.getRayIntersects()
 		let firstIntersect = intersects[0]
+
 		if(firstIntersect == undefined) return new Color(0,0,0,0)
-		return firstIntersect.hittable.color
+		let finalColor:Color = firstIntersect.hittable.color
+
+		// reflection
+		if(this.bounce > 0) {
+			let hittable = firstIntersect.hittable
+			let intersectPos = firstIntersect.intersectPos
+			let reflection = hittable.reflection
+			let diffusion = hittable.diffusion
+
+			let objIntersectVec = hittable.pos.clone().subtract(intersectPos).setMagnitude(1)
+
+
+			let bounceRayPos = firstIntersect.intersectPos.clone().plus(objIntersectVec.clone().setMagnitude(5))
+			let bounceRayVecLength = -2 * objIntersectVec.clone().setMagnitude(1).dotProduct(this.vel)
+			let bounceRayVec = objIntersectVec.clone().multiply(new Vec3(bounceRayVecLength,bounceRayVecLength)).plus(this.vel).plus(new Vec3().randomizeInBall(diffusion))
+			
+			let bounceRay = new Ray(bounceRayPos, bounceRayVec)
+			bounceRay.bounce = this.bounce-1
+			let bouncedRayColor = bounceRay.getColor()
+
+			finalColor = finalColor.blend(bouncedRayColor, reflection)
+		}
+
+		return finalColor
 		return new Color().random()
 	}
 }

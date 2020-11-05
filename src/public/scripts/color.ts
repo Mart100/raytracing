@@ -19,4 +19,10 @@ export class Color {
 
 		return this
 	}
+	blend(color2:Color, opacity:number) : Color {
+		let r = this.r*(1-opacity)+color2.r*opacity
+		let g = this.g*(1-opacity)+color2.g*opacity
+		let b = this.b*(1-opacity)+color2.b*opacity
+		return new Color(r,g,b)
+	}
 }
