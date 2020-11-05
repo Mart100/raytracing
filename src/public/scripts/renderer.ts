@@ -43,7 +43,7 @@ export class Renderer {
 		this.size = new Vec2(this.canvas.width, this.canvas.height)
 
 		this.frame()
-		this.camera = new Camera(new Vec3(0, 0, 1000), dgr_to_rad(90), new Vec3(0, 0, 0), 40)
+		this.camera = new Camera(new Vec3(0, 0, 200), dgr_to_rad(90), new Vec3(0, 0, 0), 40)
 
 	}
 	changeView(to:View) : void {
@@ -70,7 +70,7 @@ export class Renderer {
 				let angleB = ((y/height)*fov)-(fov/2)
 				let vec = new Vec3(Math.sin(angleA), Math.sin(angleB), -1)
 				let rayVec = vec.clone().rotateFull(this.camera.rot)
-				if(Math.random() > 0.99999) console.log(x, y, angleA, angleB, rayVec)
+				//if(Math.random() > 0.99999) console.log(x, y, angleA, angleB, rayVec)
 				let color = this.sendPixelRay(new Vec2(x, y), rayVec)
 				this.setCanvasPixel(new Vec2(x, y), color)
 			}

@@ -13,6 +13,8 @@ $(() => {
 	renderer = new Renderer()
 	globalAny.renderer = renderer
 
-	world.spawnRandomHittables(20)
+	world.spawnRandomHittables(200)
+
+	renderer.startRaytracingProcess()
 
 })

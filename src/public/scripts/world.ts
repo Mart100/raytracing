@@ -30,7 +30,7 @@ export class World {
 				reflection: Math.random(),
 				diffusion: Math.random(),
 				lightIntensity: 0,
-				pos: new Vec3().randomizeInCube(1000)
+				pos: new Vec3().randomizeInCube(200)
 			}
 
 			let newHittable = new Ball(randomHittableConfig)

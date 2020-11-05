@@ -55,6 +55,11 @@ export class Ray {
 	}
 
 	getColor() : Color {
+		
+		let intersects = this.getRayIntersects()
+		let firstIntersect = intersects[0]
+		if(firstIntersect == undefined) return new Color(0,0,0,0)
+		return firstIntersect.hittable.color
 		return new Color().random()
 	}
 }
