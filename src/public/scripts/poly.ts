@@ -1,7 +1,7 @@
 import { Hittable, HittableOptions, Shape } from "./hittable";
 import { Vec3 } from "./vec3";
 
-interface PolyOptions extends HittableOptions {
+export interface PolyOptions extends HittableOptions {
 	points: [Vec3, Vec3, Vec3] //Array<Vec3>
 }
 

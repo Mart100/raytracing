@@ -36,7 +36,7 @@ export class Ray {
 		for(let hittable of hittables) {
 
 			// Ball shape
-			if(hittable.shape == Shape.ball) {
+			if(Shape[hittable.shape] == "ball") {
 				let eye_to_centerBall = hittable.pos.clone().subtract(ray.pos)
 				let rayLength = eye_to_centerBall.dotProduct(ray.vel)
 				let rayClosestToBall = ray.pos.clone().plus(ray.vel.clone().setMagnitude(rayLength))
@@ -55,8 +55,13 @@ export class Ray {
 			}
 
 			// Poly shape
-			if(hittable.shape == Shape.poly) {
+			if(Shape[hittable.shape] == "poly") {
 				let poly = hittable as Poly
+
+				if(Math.random()>0.99999) {
+					console.log(poly, ray)
+
+				}
 
 				// Check at what point the ray intersects the poly as a plane
 				let planeNormal = poly.getSurfaceNormal()
@@ -75,6 +80,8 @@ export class Ray {
 
 				// check if hitPosition is within the poly
 				let didHit = false
+
+				if(hitPosition.clone().subtract(planeNormal).getMagnitude() < 20) didHit = true
 				
 				if(didHit) {
 					let intersect:rayBallIntersect = {
@@ -101,7 +108,7 @@ export class Ray {
 		let intersects = this.getRayIntersects()
 		let firstIntersect = intersects[0]
 
-		if(firstIntersect == undefined) return new Color(0,0,0,0)
+		if(firstIntersect == undefined) return new Color(0,0,0,255)
 		let finalColor:Color = firstIntersect.hittable.color
 
 		// reflection
