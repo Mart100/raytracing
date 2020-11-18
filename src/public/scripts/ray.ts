@@ -64,7 +64,31 @@ export class Ray {
         let prod1:number = diff.dotProduct(planeNormal)
         let prod2:number = ray.vel.dotProduct(planeNormal)
         let prod3:number = prod1 / prod2
-        let hitPoisition = ray.pos.subtract(ray.vel.multiply(new Vec3(prod3, prod3, prod3)))
+				let hitPosition = ray.pos.subtract(ray.vel.multiply(new Vec3(prod3, prod3, prod3)))
+				
+				// rotate plane with hitPosition to 2D
+				let offset = poly.middlePoint()
+				let simplePlane1 = poly.points[0].subtract(offset)
+				let simplePlane2 = poly.points[1].subtract(offset)
+				let simplePlane3 = poly.points[2].subtract(offset)
+				let hitPositionRotated
+
+				// check if hitPosition is within the poly
+				let didHit = false
+				
+				if(didHit) {
+					let intersect:rayBallIntersect = {
+						rayLength: hitPosition.clone().subtract(ray.pos).getMagnitude(),
+						hittable,
+						intersectPos: hitPosition,
+						ray
+					}
+					intersects.push(intersect)
+				}
+
+				
+
+
 			}
 		}
 		let intersectsOrdered = intersects.sort((a:rayBallIntersect, b:rayBallIntersect) => a.rayLength - b.rayLength)

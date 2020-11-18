@@ -30,4 +30,17 @@ export class Poly extends Hittable {
 
 		return normal
 	}
+
+	middlePoint() {
+		// point 1=A, point 2=B, point 3=C, MXX=middle of X and X
+		let A = this.points[0]
+		let B = this.points[1]
+		let C = this.points[3]
+
+		let MAB = A.plus(A.subtract(B).multiply(new Vec3().scalar(0.5)))
+		let M_MAB_C = MAB.plus(MAB.subtract(C).multiply(new Vec3().scalar(0.5)))
+		
+		let middle = M_MAB_C
+		return middle
+	}
 }
