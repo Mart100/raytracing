@@ -1,6 +1,7 @@
 import { Color } from "./color"
-import { Hittable } from "./hittable"
+import { Hittable, Shape } from "./hittable"
 import { world } from "./main"
+import { Poly } from "./poly"
 import { Vec3 } from "./vec3"
 import { World } from "./world"
 
@@ -33,20 +34,68 @@ export class Ray {
 		let hittables = this.world.hittables
 
 		for(let hittable of hittables) {
-			let eye_to_centerBall = hittable.pos.clone().subtract(ray.pos)
-			let rayLength = eye_to_centerBall.dotProduct(ray.vel)
-			let rayClosestToBall = ray.pos.clone().plus(ray.vel.clone().setMagnitude(rayLength))
-			let rayDistanceToBall = rayClosestToBall.clone().subtract(hittable.pos).getMagnitude()
-			if(rayDistanceToBall < hittable.size/2 && rayLength > 0) {
-				let dist1 = rayLength-Math.sqrt((hittable.size/2)**2 - rayDistanceToBall**2)
-				let intersectPos = ray.pos.clone().plus(ray.vel.clone().setMagnitude(dist1))
-				let intersect:rayBallIntersect = {
-					rayLength,
-					hittable,
-					intersectPos,
-					ray
+
+			// Ball shape
+			if(Shape[hittable.shape] == "ball") {
+				let eye_to_centerBall = hittable.pos.clone().subtract(ray.pos)
+				let rayLength = eye_to_centerBall.dotProduct(ray.vel)
+				let rayClosestToBall = ray.pos.clone().plus(ray.vel.clone().setMagnitude(rayLength))
+				let rayDistanceToBall = rayClosestToBall.clone().subtract(hittable.pos).getMagnitude()
+				if(rayDistanceToBall < hittable.size/2 && rayLength > 0) {
+					let dist1 = rayLength-Math.sqrt((hittable.size/2)**2 - rayDistanceToBall**2)
+					let intersectPos = ray.pos.clone().plus(ray.vel.clone().setMagnitude(dist1))
+					let intersect:rayBallIntersect = {
+						rayLength,
+						hittable,
+						intersectPos,
+						ray
+					}
+					intersects.push(intersect)
 				}
-				intersects.push(intersect)
+			}
+
+			// Poly shape
+			if(Shape[hittable.shape] == "poly") {
+				let poly = hittable as Poly
+
+				if(Math.random()>0.99999) {
+					console.log(poly, ray)
+
+				}
+
+				// Check at what point the ray intersects the poly as a plane
+				let planeNormal = poly.getSurfaceNormal()
+				let diff:Vec3 = ray.pos.subtract(poly.points[0])
+        let prod1:number = diff.dotProduct(planeNormal)
+        let prod2:number = ray.vel.dotProduct(planeNormal)
+        let prod3:number = prod1 / prod2
+				let hitPosition = ray.pos.subtract(ray.vel.multiply(new Vec3(prod3, prod3, prod3)))
+				
+				// rotate plane with hitPosition to 2D
+				let offset = poly.middlePoint()
+				let simplePlane1 = poly.points[0].subtract(offset)
+				let simplePlane2 = poly.points[1].subtract(offset)
+				let simplePlane3 = poly.points[2].subtract(offset)
+				let hitPositionRotated
+
+				// check if hitPosition is within the poly
+				let didHit = false
+
+				if(hitPosition.clone().subtract(planeNormal).getMagnitude() < 20) didHit = true
+				
+				if(didHit) {
+					let intersect:rayBallIntersect = {
+						rayLength: hitPosition.clone().subtract(ray.pos).getMagnitude(),
+						hittable,
+						intersectPos: hitPosition,
+						ray
+					}
+					intersects.push(intersect)
+				}
+
+				
+
+
 			}
 		}
 		let intersectsOrdered = intersects.sort((a:rayBallIntersect, b:rayBallIntersect) => a.rayLength - b.rayLength)
@@ -59,7 +108,7 @@ export class Ray {
 		let intersects = this.getRayIntersects()
 		let firstIntersect = intersects[0]
 
-		if(firstIntersect == undefined) return new Color(0,0,0,0)
+		if(firstIntersect == undefined) return new Color(0,0,0,255)
 		let finalColor:Color = firstIntersect.hittable.color
 
 		// reflection

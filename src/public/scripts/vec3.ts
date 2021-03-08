@@ -22,9 +22,24 @@ export class Vec3 {
 		this.z *= vec1.z
 		return this
 	}
+	scalar(num:number) {
+		this.x = num
+		this.y = num
+		this.z = num
+		return this
+	}
 	dotProduct(vec1:Vec3): number {
 		return this.x*vec1.x + this.y*vec1.y + this.z*vec1.z
 	}
+	crossProduct(vec1:Vec3) {
+    let crossproduct = new Vec3(
+      this.y * vec1.z - this.z * vec1.y,
+      this.z * vec1.x - this.x * vec1.z,
+      this.x * vec1.y - this.y * vec1.x
+		)
+		
+		return crossproduct
+  }
 	getAngles() : Vec3 {
 		let x = this.x
 		let y = this.y
